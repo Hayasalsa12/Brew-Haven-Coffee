@@ -1,26 +1,27 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // SMOOTH SCROLL NAVBAR
-    const navLinks = document.querySelectorAll('a[href^="#"]');
+document.addEventListener("DOMContentLoaded", function () {
+    //1. SMOOTH SCROLL NAVIGATION
+    const navLinks = document.querySelectorAll('.navbar-menu a[href^="#"]');
 
     navLinks.forEach(link => {
-        link.addEventListener("click", function (e) {
+        link.addEventListener("click", function (event) {
             const targetId = this.getAttribute("href");
-            if (targetId === "#") return;
-            const target = document.querySelector(targetId);
-            if (target) {
-                e.preventDefault();
-
-                target.scrollIntoView({
+            if (targetId === "#") {
+                return;
+            }
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                event.preventDefault();
+                targetSection.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
                 });
             }
         });
     });
-    // NAVBAR SAAT SCROLL
+    // 2. NAVBAR EFFECT SAAT SCROLL
     const navbar = document.querySelector(".navbar");
     if (navbar) {
-        window.addEventListener("scroll", () => {
+        window.addEventListener("scroll", function () {
             if (window.scrollY > 50) {
                 navbar.classList.add("scrolled");
             } else {
@@ -28,31 +29,57 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    // BACK TO TOP
-    const backToTop = document.querySelector("#backToTop");
-
-    if (backToTop) {
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 400) {
-                backToTop.classList.add("show");
-            } else {
-                backToTop.classList.remove("show");
+    // 3. ORDER BUTTON
+    const orderButtons = document.querySelectorAll(
+        ".navbar-order, .menu-bottom a, .hero-buttons .btn-primary"
+    );
+    orderButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const contactSection = document.querySelector("#contact");
+            if (contactSection) {
+                const confirmOrder = confirm(
+                    "Ingin melakukan pemesanan di Brew Haven Coffee?"
+                );
+                if (confirmOrder) {
+                    contactSection.scrollIntoView({
+                        behavior: "smooth"
+                    });
+                }
             }
         });
-
-        backToTop.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+    });
+        //4. VIEW FULL MENU
+    const viewMenuButton = document.querySelector(".view-menu");
+    if (viewMenuButton) {
+        viewMenuButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            alert(
+                "Menu lengkap Brew Haven Coffee akan segera tersedia ☕"
+            );
         });
     }
-    // ORDER BUTTON
-    const orderButtons = document.querySelectorAll(".order-btn");
-    orderButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            alert("Terima kasih! Silakan pilih menu favoritmu di Brew Haven Coffee ☕");
-        });
+    // 5. SCROLL REVEAL ANIMATION
+    const animatedElements = document.querySelectorAll(
+        ".menu-card, .about-feature, .feature-item, .testimonial-card, .gallery-main, .gallery-side img"
+    );
+    const observer = new IntersectionObserver(
+        function (entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        {
+            threshold: 0.15
+        }
+    );
+    animatedElements.forEach(element => {
+        element.classList.add("reveal");
+        observer.observe(element);
     });
+    // 6. CONSOLE TEST
+    console.log("Brew Haven Coffee website berhasil dimuat ☕");
 
 });
