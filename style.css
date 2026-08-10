@@ -76,6 +76,9 @@ section {
     background: #ffffff;
     border-bottom: 1px solid var(--border);
 }
+.navbar.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
 .navbar-logo {
     font-family: Georgia, "Times New Roman", serif;
     font-size: 40px;
@@ -638,4 +641,14 @@ border-color: var(--brown);
     .contact-map img {
         height: 280px;
     }
+}
+/* ============== SCROLL REVEAL ANIMATION==============*/
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
 }
